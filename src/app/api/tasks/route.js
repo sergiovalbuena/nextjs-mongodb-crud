@@ -8,8 +8,16 @@ export async function GET() {
     return NextResponse.json(tasks)
 }
 
-export function POST() {
-    return NextResponse.json({
-        message: "Obteniendo Tasks"
-    })
+export async function POST(request) {
+    try {
+        const data = await request.json() //get info from the request
+        const newTask = new Task(data) //create a new object
+        const savedTask = await newTask.save() //save the object in the database
+        //console.log(savedTask)
+        return NextResponse.json(savedTask)
+    } catch (error) {
+        return NextResponse.json(error.message, {
+            status: 400
+        })
+    }
 }
