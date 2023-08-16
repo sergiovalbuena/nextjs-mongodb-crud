@@ -49,11 +49,11 @@ export async function DELETE(request, { params }) {
 export async function PUT(request, { params }) {
     const body = await request.json()
     connectDB()
-    const data = await request.json()
+    //const data = await request.json()
 
     try {
-        console.log(data)
-        const taskUpdated = await Task.findByIdAndUpdate(params.id, data,
+        //console.log(data)
+        const taskUpdated = await Task.findByIdAndUpdate(params.id, body,
             { new: true }
 
         )
