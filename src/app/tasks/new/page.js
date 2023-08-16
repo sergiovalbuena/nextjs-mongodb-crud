@@ -1,6 +1,6 @@
 "use client"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useRouter, useParams } from "next/navigation"
+import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 
 
 export default function FormPage() {
@@ -12,6 +12,7 @@ export default function FormPage() {
 
 
     const router = useRouter()
+    const params = useParams()
 
     const createTask = async () => {
         try {
@@ -27,7 +28,7 @@ export default function FormPage() {
 
             if (res.status === 200) {
                 router.push('/')
-                //router.refresh()
+                router.refresh()
             }
 
             console.log(data)
@@ -50,12 +51,15 @@ export default function FormPage() {
         setNewTask({ ...newTask, [e.target.name]: e.target.value })
     }
 
+    useEffect(() => {
+        console.log(params)
+    })
 
 
     return (
         <div className="h-[calc(100vh-7rem)] flex justify-center items-cneter">
-            <h1 className="font-bold text-3xl">Create Task</h1>
             <form onSubmit={handleSumbit}>
+                <h1 className="font-bold text-3xl">Create Task</h1>
                 <input
                     type="text"
                     name="title"
