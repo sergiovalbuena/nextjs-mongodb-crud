@@ -38,6 +38,21 @@ export default function FormPage() {
     }
 
 
+    const handleDelete = async () => {
+        //console.log("deleting")
+        try {
+            if (window.confirm("Are you sure you want to delete it?")) {
+                const res = await fetch(`/api/tasks/${params.id}`, {
+                    method: 'DELETE',
+                })
+                router.push('/')
+                router.refresh()
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const handleSumbit = async (e) => {
         e.preventDefault()
         //console.log(newTask)
@@ -51,6 +66,7 @@ export default function FormPage() {
         setNewTask({ ...newTask, [e.target.name]: e.target.value })
     }
 
+    //get task by id
     useEffect(() => {
         console.log(params)
     })
@@ -59,7 +75,23 @@ export default function FormPage() {
     return (
         <div className="h-[calc(100vh-7rem)] flex justify-center items-cneter">
             <form onSubmit={handleSumbit}>
-                <h1 className="font-bold text-3xl">Create Task</h1>
+
+                <header className="flex justify-between">
+
+
+                    <h1 className="font-bold text-3xl">
+                        {
+                            !params.id ? "Create Task" : " Update Task"
+                        }
+                    </h1>
+
+                    <button
+                        type="button"
+                        className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg"
+                        onClick={handleDelete}>
+                        Delete
+                    </button>
+                </header>
                 <input
                     type="text"
                     name="title"
@@ -75,6 +107,7 @@ export default function FormPage() {
                     onChange={handleChange}
                 />
                 <button
+                    type="submit"
                     className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg"
                 >Save</button>
 
